@@ -10,7 +10,8 @@
 			   USER_NO userNO
 			 , USER_ID userId
 			 , USER_PWD userPwd
-			 , EMAIL
+			 , USER_NAME userName
+			 , EMAIL eamil
 			 , ENROLL_DATE enrollDate
 			 , MODIFY_DATE modifyDate
 			 , STATUS
@@ -24,4 +25,68 @@
 		   	   STATUS = 'Y'
 	</select>
 	
+	<insert id="singUp"
+			parameterType="com.kh.java.member.model.vo.Member">
+			INSERT
+			  INTO
+			  	   KH_MEMBER
+			  	   (
+			  	   USER_NO
+			  	 , USER_ID
+			  	 , USER_PWD
+			  	 , USER_NAME
+			  	 , EMAIL
+			  	   )
+			VALUES 
+				   (
+			 	   KH_UNO.NEXTVAL
+			 	 , #{userId}
+			 	 , #{userPwd}
+			 	 , #{userName}
+			 	 , #{eamil}
+			 	 	)
+			
+	</insert>
+	
+	<update id="update">
+		UPDATE
+			   KH_MEMBER
+		   SET
+		   	   USER_NAME = #{userName}
+		   	 , EMAIL = #{eamil}
+		   	 , MODIFY_DATE = SYSDATE
+		 WHERE
+		 	   USER_NO = #{userNO}
+		   AND
+		   	   STATUS = 'Y'
+	</update>
+	
+	<update id="delete">
+		UPDATE 
+			   KH_MEMBER
+		   SET
+		   	   STATUS = 'N'
+		   	 , MODIFY_DATE = SYSDATE
+		 WHERE
+		 	   USER_NO = #{userNO}
+		   AND
+		   	   USER_PWD = #{userPwd}
+		   AND
+		   	   STATUS = 'Y'
+	</update>
+	
+	<update id="updatePwd">
+		UPDATE
+			   KH_MEMBER
+		   SET
+		   	   USER_PWD = #{updatePwd}
+		 WHERE
+		 	   USER_NO = #{userNO} 
+		   AND
+		   	   USER_PWD = #{userPwd}
+		   AND
+		   	   STATUS = 'Y'
+	
+	
+	</update>
 </mapper>
