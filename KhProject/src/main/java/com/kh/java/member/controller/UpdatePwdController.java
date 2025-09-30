@@ -46,7 +46,7 @@ public class UpdatePwdController extends HttpServlet {
 			member.setUserPwd(updatePwd);
 		}
 
-		session.setAttribute("alertMsg", result > 0 ? "변경 성공~" : "변경 실패...");
+		session.setAttribute("alertMsg", result > 0 ? "2변경 성공~" : "변경 실패...");
 
 		// 성공이든 실패든 마이페이지로 응답
 		response.sendRedirect(request.getContextPath() + "/myPage");
