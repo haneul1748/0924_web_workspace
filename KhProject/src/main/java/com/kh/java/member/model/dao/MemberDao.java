@@ -28,4 +28,8 @@ public class MemberDao {
 	public int updatePwd(SqlSession session, Map<String, String> map) {
 		return session.update("memberMapper.updatePwd", map);
 	}
+	
+	public String checkId(SqlSession sqlSession, String id) {
+		return sqlSession.selectOne("memberMapper.checkId", id);
+	}
 }

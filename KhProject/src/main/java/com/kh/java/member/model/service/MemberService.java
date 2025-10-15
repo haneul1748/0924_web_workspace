@@ -94,4 +94,14 @@ public class MemberService {
 
 		return result;
 	}
+	
+	public String checkId(String id) {
+		SqlSession sqlSession = Template.getsqlSession();
+		
+		String result = md.checkId(sqlSession, id);
+		
+		sqlSession.close();
+		
+		return result;
+	}
 }

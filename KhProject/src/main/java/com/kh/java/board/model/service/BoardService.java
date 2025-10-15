@@ -7,9 +7,12 @@ import java.util.Map;
 import org.apache.ibatis.session.SqlSession;
 
 import com.kh.java.board.model.dao.BoardDao;
+import com.kh.java.board.model.dto.BoardDto;
+import com.kh.java.board.model.dto.ImageBoardDto;
 import com.kh.java.board.model.vo.Attachment;
 import com.kh.java.board.model.vo.Board;
 import com.kh.java.board.model.vo.Category;
+import com.kh.java.board.model.vo.Reply;
 import com.kh.java.common.PageInfo;
 import com.kh.java.common.Template;
 
@@ -219,6 +222,62 @@ public class BoardService {
 		}
 
 		return result;
+	}
+	
+	public List<ImageBoardDto> selectImageList() {
+		
+		SqlSession sqlSession = Template.getsqlSession();
+		
+		List<ImageBoardDto> boards = bd.selectImageList(sqlSession);
+		
+		sqlSession.close();
+		
+		return boards;
+	}
+	
+	public BoardDto selectImageDetail(Long boardNo) {
+		
+		SqlSession sqlSession = Template.getsqlSession();
+		
+		int updateResult = bd.increaseCount(sqlSession,boardNo.intValue());
+		
+				if(updateResult > 0) {
+					sqlSession.commit();
+					
+					//Board voard = bd.selectBoard(sqlSession, boardNo.intValue())
+					//bd.selectAttachment(sqlSession, boardNo.intValue())
+					//Map<String, Object> map = new HashMap();
+					//map.put("board", board);
+					//map.put("files", files);
+					BoardDto boards = bd.selectBoardAndAttachment(sqlSession,boardNo);
+					
+					return boards;
+				}
+				
+	}
+	
+	public int insertReply(Reply reply) {
+		SqlSession sqlSession = Template.getsqlSession();
+		
+		int result = bd.insertReply(sqlSession, reply);
+		
+		if(result > 0) {
+			sqlSession.commit();
+		} 
+		
+		sqlSession.close();
+		
+		return result;
+	}
+	
+	public List<Reply> selectReply(Long boardNo){
+		SqlSession sqlSession = Template.getsqlSession();
+		
+		List<Reply> reply = bd.selectReply(sqlSession, boardNo);
+		
+		sqlSession.close();
+		
+		return reply;
 	}
 	
 }
